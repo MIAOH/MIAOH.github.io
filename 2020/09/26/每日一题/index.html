@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>每日一题 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="每日一题 0926 路径总和 II一、问题描述 二、具体代码12345678910111213141516171819&amp;#x27;&amp;#x27;&amp;#x27;dfs到每个叶子节点 判断路径和是否等于sum&amp;#x27;&amp;#x27;&amp;#x27;class Solution(object):    def pathSum(self, root, sum):        self.path&#x3D;[]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日一题">
+<meta property="og:url" content="http://yoursite.com/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="每日一题 0926 路径总和 II一、问题描述 二、具体代码12345678910111213141516171819&amp;#x27;&amp;#x27;&amp;#x27;dfs到每个叶子节点 判断路径和是否等于sum&amp;#x27;&amp;#x27;&amp;#x27;class Solution(object):    def pathSum(self, root, sum):        self.path&#x3D;[]">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/113.png">
+<meta property="og:image" content="http://yoursite.com/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/235.png">
+<meta property="article:published_time" content="2020-09-26T08:45:28.000Z">
+<meta property="article:modified_time" content="2020-09-27T01:38:59.738Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/113.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-每日一题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" class="article-date">
+  <time datetime="2020-09-26T08:45:28.000Z" itemprop="datePublished">2020-09-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      每日一题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="每日一题-0926-路径总和-II"><a href="#每日一题-0926-路径总和-II" class="headerlink" title="每日一题 0926 路径总和 II"></a>每日一题 0926 路径总和 II</h3><h4 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h4><p><img src="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/113.png" alt="题目描述"></p>
+<h4 id="二、具体代码"><a href="#二、具体代码" class="headerlink" title="二、具体代码"></a>二、具体代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">dfs到每个叶子节点 判断路径和是否等于sum</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pathSum</span>(<span class="params">self, root, sum</span>):</span></span><br><span class="line">        self.path=[]</span><br><span class="line">        self.res=[]</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">root,sum</span>):</span></span><br><span class="line">            <span class="keyword">if</span> root==<span class="literal">None</span>:</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            self.path.append(root.val)  <span class="comment">#选择root这条路，路径和</span></span><br><span class="line">            sum-=root.val</span><br><span class="line">            <span class="keyword">if</span> root.left==<span class="literal">None</span> <span class="keyword">and</span> root.right==<span class="literal">None</span> <span class="keyword">and</span> sum==<span class="number">0</span>:</span><br><span class="line">                self.res.append(list(self.path))  <span class="comment">#记得把一个list的内容赋给另一个list，需要强制类型转换</span></span><br><span class="line">            dfs(root.left,sum)</span><br><span class="line">            dfs(root.right,sum)</span><br><span class="line">            self.path.pop()  <span class="comment">#不选择root这条路</span></span><br><span class="line">        dfs(root,sum)</span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure>
+
+<h3 id="每日一题-0927-二叉搜索树的最近公共祖先"><a href="#每日一题-0927-二叉搜索树的最近公共祖先" class="headerlink" title="每日一题 0927 二叉搜索树的最近公共祖先"></a>每日一题 0927 二叉搜索树的最近公共祖先</h3><h4 id="一、问题描述-1"><a href="#一、问题描述-1" class="headerlink" title="一、问题描述"></a>一、问题描述</h4><p><img src="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/235.png" alt="题目描述"></p>
+<h4 id="二、具体代码-1"><a href="#二、具体代码-1" class="headerlink" title="二、具体代码"></a>二、具体代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">若根节点的值在两个节点中间，则根节点为最近公共祖先</span></span><br><span class="line"><span class="string">若根节点大于两者的最大值，则最近公共祖先在根节点的右子树中</span></span><br><span class="line"><span class="string">反之 小于最小值，在左子树中</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lowestCommonAncestor</span>(<span class="params">self, root, p, q</span>):</span></span><br><span class="line">        m=p.val </span><br><span class="line">        n=q.val</span><br><span class="line">        <span class="keyword">if</span> root==p <span class="keyword">or</span> root==q:</span><br><span class="line">            <span class="keyword">return</span> root</span><br><span class="line">        <span class="keyword">if</span> root.val &lt; min(m,n):</span><br><span class="line">            <span class="keyword">return</span> self.lowestCommonAncestor(root.right,p,q)</span><br><span class="line">        <span class="keyword">elif</span> root.val &gt;max(m,n):</span><br><span class="line">            <span class="keyword">return</span> self.lowestCommonAncestor(root.left,p,q)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" data-id="ckfkjxl0j0000d0vf52o13yht" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/09/25/%E5%89%91%E6%8C%87offer/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">剑指offer</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/backtrack/" rel="tag">backtrack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leecode/" rel="tag">leecode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/work/" rel="tag">work</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/backtrack/" style="font-size: 10px;">backtrack</a> <a href="/tags/leecode/" style="font-size: 20px;">leecode</a> <a href="/tags/work/" style="font-size: 20px;">work</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">每日一题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/25/%E5%89%91%E6%8C%87offer/">剑指offer</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/04/Backtrack/">回溯</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/02/tree/">tree</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/hello-hexo/">hello,hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
