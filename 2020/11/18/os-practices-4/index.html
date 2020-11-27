@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>postos-practices-4 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="操作系统原理与实践-哈工大 实验楼-实验4（进程运行轨迹的跟踪与统计）实验地址：https:&#x2F;&#x2F;www.lanqiao.cn&#x2F;courses&#x2F;115&#x2F;learning&#x2F;?id&#x3D;570参考文献：https:&#x2F;&#x2F;blog.csdn.net&#x2F;laoshuyudaohou&#x2F;article&#x2F;details&#x2F;102896611?utm_medium&#x3D;distribute.pc_relevant.none-ta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="postos-practices-4">
+<meta property="og:url" content="http://yoursite.com/2020/11/18/os-practices-4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="操作系统原理与实践-哈工大 实验楼-实验4（进程运行轨迹的跟踪与统计）实验地址：https:&#x2F;&#x2F;www.lanqiao.cn&#x2F;courses&#x2F;115&#x2F;learning&#x2F;?id&#x3D;570参考文献：https:&#x2F;&#x2F;blog.csdn.net&#x2F;laoshuyudaohou&#x2F;article&#x2F;details&#x2F;102896611?utm_medium&#x3D;distribute.pc_relevant.none-ta">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/2.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/3.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/5.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/4.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/7.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/6.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/8.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/9.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/18/os-practices-4/10.png">
+<meta property="article:published_time" content="2020-11-18T11:31:29.000Z">
+<meta property="article:modified_time" content="2020-11-27T02:48:17.555Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="os">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/11/18/os-practices-4/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-os-practices-4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/18/os-practices-4/" class="article-date">
+  <time datetime="2020-11-18T11:31:29.000Z" itemprop="datePublished">2020-11-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      postos-practices-4
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="操作系统原理与实践-哈工大-实验楼-实验4（进程运行轨迹的跟踪与统计）"><a href="#操作系统原理与实践-哈工大-实验楼-实验4（进程运行轨迹的跟踪与统计）" class="headerlink" title="操作系统原理与实践-哈工大 实验楼-实验4（进程运行轨迹的跟踪与统计）"></a>操作系统原理与实践-哈工大 实验楼-实验4（进程运行轨迹的跟踪与统计）</h2><p>实验地址：<a target="_blank" rel="noopener" href="https://www.lanqiao.cn/courses/115/learning/?id=570">https://www.lanqiao.cn/courses/115/learning/?id=570</a><br>参考文献：<a target="_blank" rel="noopener" href="https://blog.csdn.net/laoshuyudaohou/article/details/102896611?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control">https://blog.csdn.net/laoshuyudaohou/article/details/102896611?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control</a></p>
+<p>实验内容：<br><img src="/2020/11/18/os-practices-4/1.png" alt="实验内容"><br><img src="/2020/11/18/os-practices-4/2.png" alt="实验内容"></p>
+<h3 id="1、编写样本程序"><a href="#1、编写样本程序" class="headerlink" title="1、编写样本程序"></a>1、编写样本程序</h3><p>样本程序，就是一个生成各种进程的程序。<br>用 fork() 建立若干个同时运行的子进程，父进程等待所有子进程退出后才退出，每个子进程按照你的意愿做不同或相同的 cpuio_bound()，从而完成一个个性化的样本程序。</p>
+<pre><code>fork() 函数：
+    fork（）函数通过系统调用创建一个与原来进程几乎完全相同的进程，也就是两个进程可以做完全相同的事，但如果初始参数或者传入的变量不同，两个进程也可以做不同的事。
+一个进程调用fork（）函数后，系统先给新的进程分配资源，例如存储数据和代码的空间。然后把原来的进程的所有值都复制到新的新进程中，只有少数值与原来的进程的值不同。相当于克隆了一个自己。
+    fork调用的一个奇妙之处就是它仅仅被调用一次，却能够返回两次，它可能有三种不同的返回值：
+        1）在父进程中，fork返回新创建子进程的进程ID；
+        2）在子进程中，fork返回0；
+        3）如果出现错误，fork返回一个负值；
+    在fork函数执行完毕后，如果创建新进程成功，则出现两个进程，一个是子进程，一个是父进程。在子进程中，fork函数返回0，在父进程中，fork返回新创建子进程的进程ID。我们可以通过fork返回的值来判断当前进程是子进程还是父进程。
+        “其实就相当于链表，进程形成了链表，父进程的fpid(p 意味point)指向子进程的进程id, 因为子进程没有子进程，所以其fpid为0.
+wait() 系统调用可以让父进程等待子进程的退出。</code></pre>
+<p>修改process.c中main函数代码如下：<br><img src="/2020/11/18/os-practices-4/3.png" alt="实验内容"><br><img src="/2020/11/18/os-practices-4/5.png" alt="实验内容"><br>运行结果如下：<br><img src="/2020/11/18/os-practices-4/4.png" alt="实验内容"></p>
+<h3 id="2、Log文件"><a href="#2、Log文件" class="headerlink" title="2、Log文件"></a>2、Log文件</h3><p><img src="/2020/11/18/os-practices-4/7.png" alt="实验内容"><br><img src="/2020/11/18/os-practices-4/6.png" alt="实验内容"></p>
+<h3 id="3、编写往Log文件中写日志的函数"><a href="#3、编写往Log文件中写日志的函数" class="headerlink" title="3、编写往Log文件中写日志的函数"></a>3、编写往Log文件中写日志的函数</h3><p>linux-0.11/kernel/printk.c中添加<br><img src="/2020/11/18/os-practices-4/8.png" alt="实验内容"><br><img src="/2020/11/18/os-practices-4/9.png" alt="实验内容"><br>在 include/linux/kernel.h中添加了它的函数定义原形：int fprintk(int fd, const char *fmt, …)<br>如下图<br><img src="/2020/11/18/os-practices-4/10.png" alt="实验内容"></p>
+<h3 id="4、jiffies，滴答"><a href="#4、jiffies，滴答" class="headerlink" title="4、jiffies，滴答"></a>4、jiffies，滴答</h3><p>jiffies 在 kernel/sched.c 文件中定义为一个全局变量：<br>long volatile jiffies=0;</p>
+<p>它记录了从开机到当前时间的时钟中断发生次数。<br>时钟中断即每隔指定时间 会发生的一次中断，若设定每隔10ms发送一次时间中断，则jiffies 实际上记录了从开机以来共经过了多少个 10ms。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/18/os-practices-4/" data-id="ckhzogq2600003ovf6va53asg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/os/" rel="tag">os</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/11/13/os-practices/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">os practices</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/backtrack/" rel="tag">backtrack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leecode/" rel="tag">leecode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os/" rel="tag">os</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/work/" rel="tag">work</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/backtrack/" style="font-size: 10px;">backtrack</a> <a href="/tags/leecode/" style="font-size: 20px;">leecode</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/os/" style="font-size: 20px;">os</a> <a href="/tags/work/" style="font-size: 20px;">work</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/11/18/os-practices-4/">postos-practices-4</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/13/os-practices/">os practices</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/13/os-practices-3/">os practices-3-3</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/26/recording/">recording</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">每日一题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

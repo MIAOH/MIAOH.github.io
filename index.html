@@ -64,6 +64,62 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-os-practices-4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/18/os-practices-4/" class="article-date">
+  <time datetime="2020-11-18T11:31:29.000Z" itemprop="datePublished">2020-11-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/18/os-practices-4/">postos-practices-4</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="操作系统原理与实践-哈工大-实验楼-实验4（进程运行轨迹的跟踪与统计）"><a href="#操作系统原理与实践-哈工大-实验楼-实验4（进程运行轨迹的跟踪与统计）" class="headerlink" title="操作系统原理与实践-哈工大 实验楼-实验4（进程运行轨迹的跟踪与统计）"></a>操作系统原理与实践-哈工大 实验楼-实验4（进程运行轨迹的跟踪与统计）</h2><p>实验地址：<a target="_blank" rel="noopener" href="https://www.lanqiao.cn/courses/115/learning/?id=570">https://www.lanqiao.cn/courses/115/learning/?id=570</a><br>参考文献：<a target="_blank" rel="noopener" href="https://blog.csdn.net/laoshuyudaohou/article/details/102896611?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control">https://blog.csdn.net/laoshuyudaohou/article/details/102896611?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control</a></p>
+<p>实验内容：<br><img src="/2020/11/18/os-practices-4/1.png" alt="实验内容"><br><img src="/2020/11/18/os-practices-4/2.png" alt="实验内容"></p>
+<h3 id="1、编写样本程序"><a href="#1、编写样本程序" class="headerlink" title="1、编写样本程序"></a>1、编写样本程序</h3><p>样本程序，就是一个生成各种进程的程序。<br>用 fork() 建立若干个同时运行的子进程，父进程等待所有子进程退出后才退出，每个子进程按照你的意愿做不同或相同的 cpuio_bound()，从而完成一个个性化的样本程序。</p>
+<pre><code>fork() 函数：
+    fork（）函数通过系统调用创建一个与原来进程几乎完全相同的进程，也就是两个进程可以做完全相同的事，但如果初始参数或者传入的变量不同，两个进程也可以做不同的事。
+一个进程调用fork（）函数后，系统先给新的进程分配资源，例如存储数据和代码的空间。然后把原来的进程的所有值都复制到新的新进程中，只有少数值与原来的进程的值不同。相当于克隆了一个自己。
+    fork调用的一个奇妙之处就是它仅仅被调用一次，却能够返回两次，它可能有三种不同的返回值：
+        1）在父进程中，fork返回新创建子进程的进程ID；
+        2）在子进程中，fork返回0；
+        3）如果出现错误，fork返回一个负值；
+    在fork函数执行完毕后，如果创建新进程成功，则出现两个进程，一个是子进程，一个是父进程。在子进程中，fork函数返回0，在父进程中，fork返回新创建子进程的进程ID。我们可以通过fork返回的值来判断当前进程是子进程还是父进程。
+        “其实就相当于链表，进程形成了链表，父进程的fpid(p 意味point)指向子进程的进程id, 因为子进程没有子进程，所以其fpid为0.
+wait() 系统调用可以让父进程等待子进程的退出。</code></pre>
+<p>修改process.c中main函数代码如下：<br><img src="/2020/11/18/os-practices-4/3.png" alt="实验内容"><br><img src="/2020/11/18/os-practices-4/5.png" alt="实验内容"><br>运行结果如下：<br><img src="/2020/11/18/os-practices-4/4.png" alt="实验内容"></p>
+<h3 id="2、Log文件"><a href="#2、Log文件" class="headerlink" title="2、Log文件"></a>2、Log文件</h3><p><img src="/2020/11/18/os-practices-4/7.png" alt="实验内容"><br><img src="/2020/11/18/os-practices-4/6.png" alt="实验内容"></p>
+<h3 id="3、编写往Log文件中写日志的函数"><a href="#3、编写往Log文件中写日志的函数" class="headerlink" title="3、编写往Log文件中写日志的函数"></a>3、编写往Log文件中写日志的函数</h3><p>linux-0.11/kernel/printk.c中添加<br><img src="/2020/11/18/os-practices-4/8.png" alt="实验内容"><br><img src="/2020/11/18/os-practices-4/9.png" alt="实验内容"><br>在 include/linux/kernel.h中添加了它的函数定义原形：int fprintk(int fd, const char *fmt, …)<br>如下图<br><img src="/2020/11/18/os-practices-4/10.png" alt="实验内容"></p>
+<h3 id="4、jiffies，滴答"><a href="#4、jiffies，滴答" class="headerlink" title="4、jiffies，滴答"></a>4、jiffies，滴答</h3><p>jiffies 在 kernel/sched.c 文件中定义为一个全局变量：<br>long volatile jiffies=0;</p>
+<p>它记录了从开机到当前时间的时钟中断发生次数。<br>时钟中断即每隔指定时间 会发生的一次中断，若设定每隔10ms发送一次时间中断，则jiffies 实际上记录了从开机以来共经过了多少个 10ms。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/18/os-practices-4/" data-id="ckhzogq2600003ovf6va53asg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/os/" rel="tag">os</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-os-practices" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/11/13/os-practices/" class="article-date">
@@ -116,6 +172,67 @@
       <a data-url="http://yoursite.com/2020/11/13/os-practices/" data-id="ckhg2698d0000covfcs2b7n2d" class="article-share-link">Share</a>
       
       
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-os-practices-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/13/os-practices-3/" class="article-date">
+  <time datetime="2020-11-13T08:43:44.000Z" itemprop="datePublished">2020-11-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/13/os-practices-3/">os practices-3-3</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="操作系统原理与实践-哈工大-实验楼-实验3（系统调用）"><a href="#操作系统原理与实践-哈工大-实验楼-实验3（系统调用）" class="headerlink" title="操作系统原理与实践-哈工大 实验楼-实验3（系统调用）"></a>操作系统原理与实践-哈工大 实验楼-实验3（系统调用）</h2><p>实验地址：<a target="_blank" rel="noopener" href="https://www.lanqiao.cn/courses/115">https://www.lanqiao.cn/courses/115</a></p>
+<p> 主要参考资料：<br> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_32589509/article/details/76293184?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param">https://blog.csdn.net/qq_32589509/article/details/76293184?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param</a></p>
+<p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/watson2016/article/details/72230850">https://blog.csdn.net/watson2016/article/details/72230850</a></p>
+<p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/yuebowhu/article/details/78755728">https://blog.csdn.net/yuebowhu/article/details/78755728</a></p>
+<p><img src="/2020/11/13/os-practices-3/1.png" alt="实验内容"></p>
+<h3 id="1、添加系统调用号以及系统调用函数头"><a href="#1、添加系统调用号以及系统调用函数头" class="headerlink" title="1、添加系统调用号以及系统调用函数头"></a>1、添加系统调用号以及系统调用函数头</h3><h4 id="修改linux-0-11-include-unistd-h文件"><a href="#修改linux-0-11-include-unistd-h文件" class="headerlink" title="修改linux-0.11/include/unistd.h文件"></a>修改linux-0.11/include/unistd.h文件</h4><p><img src="/2020/11/13/os-practices-3/2.png" alt="实验内容"><br><img src="/2020/11/13/os-practices-3/3.png" alt="实验内容"></p>
+<p>因为在 0.11 环境下编译 C 程序，包含的头文件都在 /usr/include 目录下，后续应用程序需要用到unistd.h文件中的系统调用号以及函数头，</p>
+<p>所以将修改后的unistd.h复制到挂载的hdc/use/include中 替换原来的unistd.h文件<br>挂载命令为:sudo ./mount-hdc </p>
+<h3 id="2、进入内核函数"><a href="#2、进入内核函数" class="headerlink" title="2、进入内核函数"></a>2、进入内核函数</h3><p>在中断 0x80 发生后，自动调用函数 system_call,所以我们要修改对应的system_call文件</p>
+<h4 id="修改linux-0-11-kernel-system-call-s"><a href="#修改linux-0-11-kernel-system-call-s" class="headerlink" title="修改linux-0.11/kernel/system_call.s"></a>修改linux-0.11/kernel/system_call.s</h4><pre><code>修改系统总调用数 因为增加了两个 变为74</code></pre>
+<p><img src="/2020/11/13/os-practices-3/4.png" alt="实验内容"></p>
+<h4 id="修改include-linux-sys-h"><a href="#修改include-linux-sys-h" class="headerlink" title="修改include/linux/sys.h"></a>修改include/linux/sys.h</h4><pre><code>增加实验要求的系统调用，需要在sys_call_table这个函数表中增加两个函数引用</code></pre>
+<p><img src="/2020/11/13/os-practices-3/5.png" alt="实验内容"></p>
+<h3 id="3、在内核中实现函数-sys-iam-和-sys-whoami-。"><a href="#3、在内核中实现函数-sys-iam-和-sys-whoami-。" class="headerlink" title="3、在内核中实现函数 sys_iam() 和 sys_whoami()。"></a>3、在内核中实现函数 sys_iam() 和 sys_whoami()。</h3><p>在linux-0.11/kernel文件下新建文件who.c<br><img src="/2020/11/13/os-practices-3/6.png" alt="实验内容"><br><img src="/2020/11/13/os-practices-3/7.png" alt="实验内容"></p>
+<h3 id="4、修改makefile让我们添加的-kernel-who-c-可以和其它-Linux-代码编译链接到一起"><a href="#4、修改makefile让我们添加的-kernel-who-c-可以和其它-Linux-代码编译链接到一起" class="headerlink" title="4、修改makefile让我们添加的 kernel/who.c 可以和其它 Linux 代码编译链接到一起"></a>4、修改makefile让我们添加的 kernel/who.c 可以和其它 Linux 代码编译链接到一起</h3><p>修改linux-0.11/kernel/makefile</p>
+<p><img src="/2020/11/13/os-practices-3/8.png" alt="实验内容"></p>
+<p>随后执行make all</p>
+<p><img src="/2020/11/13/os-practices-3/9.png" alt="实验内容"></p>
+<h3 id="5、编写应用测试程序"><a href="#5、编写应用测试程序" class="headerlink" title="5、编写应用测试程序"></a>5、编写应用测试程序</h3><p>注意，要在挂载的hdc/usr/root中编写<br><img src="/2020/11/13/os-practices-3/10.png" alt="实验内容"><br>具体代码含义：<br><img src="/2020/11/13/os-practices-3/12.png" alt="实验内容"></p>
+<h3 id="6、运行虚拟机-运行应用程序"><a href="#6、运行虚拟机-运行应用程序" class="headerlink" title="6、运行虚拟机 运行应用程序"></a>6、运行虚拟机 运行应用程序</h3><p>运行虚拟机：</p>
+<p><img src="/2020/11/13/os-practices-3/11.png" alt="实验内容"></p>
+<p>运行应用程序：</p>
+<p><img src="/2020/11/13/os-practices-3/res.png" alt="实验内容"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/13/os-practices-3/" data-id="ckhzogq2600013ovfdajyf1jd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/os/" rel="tag">os</a></li></ul>
+
     </footer>
   </div>
   
@@ -219,7 +336,12 @@
 <h4 id="二、具体代码-7"><a href="#二、具体代码-7" class="headerlink" title="二、具体代码"></a>二、具体代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">即各字符串的交集</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">commonChars</span>(<span class="params">self, A</span>):</span></span><br><span class="line">        c_dict=[<span class="number">0</span>]*<span class="number">26</span>  <span class="comment">#0a 1b ...</span></span><br><span class="line">        res=[]</span><br><span class="line">        flag=<span class="number">1</span>  <span class="comment">#第一字符串不用算交集</span></span><br><span class="line">        c=<span class="string">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span> <span class="comment">#用于数字转字符</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> A:</span><br><span class="line">            temp=[<span class="number">0</span>]*<span class="number">26</span>  <span class="comment">#计算每个字符串中各字符出现的次数</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> i:</span><br><span class="line">                index=ord(j)-ord(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">                <span class="keyword">if</span> flag==<span class="number">1</span>:</span><br><span class="line">                    c_dict[index]+=<span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    temp[index]+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> index <span class="keyword">in</span> range(len(c)): <span class="comment">#更新交集</span></span><br><span class="line">                <span class="keyword">if</span> flag==<span class="number">1</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">if</span> c_dict[index]&gt;temp[index]:</span><br><span class="line">                    c_dict[index]=temp[index]</span><br><span class="line">            flag=<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(c_dict)):</span><br><span class="line">            <span class="keyword">while</span> c_dict[i] &gt;<span class="number">0</span>: <span class="comment">#重复出现多次的都要输出</span></span><br><span class="line">                res.append(c[i])</span><br><span class="line">                c_dict[i]-=<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h3 id="每日一题-1016-有序数组的平方"><a href="#每日一题-1016-有序数组的平方" class="headerlink" title="每日一题 1016 有序数组的平方"></a>每日一题 1016 有序数组的平方</h3><h4 id="一、问题描述-8"><a href="#一、问题描述-8" class="headerlink" title="一、问题描述"></a>一、问题描述</h4><p><img src="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/977.png" alt="题目描述"></p>
-<h4 id="二、具体代码-8"><a href="#二、具体代码-8" class="headerlink" title="二、具体代码"></a>二、具体代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span><span class="string">&#x27;</span></span><br><span class="line"><span class="string">双指针 最大的值一定在两侧 </span></span><br><span class="line"><span class="string">&#x27;</span><span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] sortedSquares(<span class="keyword">int</span>[] A) &#123;</span><br><span class="line">        <span class="keyword">int</span> start=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> end=A.length;</span><br><span class="line">        <span class="keyword">int</span> i=end-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[] res=<span class="keyword">new</span> <span class="keyword">int</span>[end--];</span><br><span class="line">        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">            res[i--]=A[start]*A[start]&gt;=A[end]*A[end]?A[start]*A[start++]:A[end]*A[end--];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="二、具体代码-8"><a href="#二、具体代码-8" class="headerlink" title="二、具体代码"></a>二、具体代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span><span class="string">&#x27;</span></span><br><span class="line"><span class="string">双指针 最大的值一定在两侧 </span></span><br><span class="line"><span class="string">&#x27;</span><span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] sortedSquares(<span class="keyword">int</span>[] A) &#123;</span><br><span class="line">        <span class="keyword">int</span> start=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> end=A.length;</span><br><span class="line">        <span class="keyword">int</span> i=end-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[] res=<span class="keyword">new</span> <span class="keyword">int</span>[end--];</span><br><span class="line">        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">            res[i--]=A[start]*A[start]&gt;=A[end]*A[end]?A[start]*A[start++]:A[end]*A[end--];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="每日一题-1126-最大间距"><a href="#每日一题-1126-最大间距" class="headerlink" title="每日一题 1126 最大间距"></a>每日一题 1126 最大间距</h3><h4 id="一、问题描述-9"><a href="#一、问题描述-9" class="headerlink" title="一、问题描述"></a>一、问题描述</h4><p><img src="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/164.png" alt="题目描述"><br><img src="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/164_1.png" alt="题目描述"></p>
+<h4 id="二、具体代码-9"><a href="#二、具体代码-9" class="headerlink" title="二、具体代码"></a>二、具体代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span><span class="string">&#x27;</span></span><br><span class="line"><span class="string">桶排序</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#x27;</span><span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 线性时间复杂度和空间复杂度 不能用Arrays.sort</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maximumGap</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> l=nums.length;</span><br><span class="line">        <span class="keyword">if</span>(l&lt;<span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> n_min=Integer.MAX_VALUE,n_max=-<span class="number">1</span>;</span><br><span class="line">        <span class="comment">//获得最大最小值</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i:nums)&#123;</span><br><span class="line">            <span class="keyword">if</span> (i&gt;n_max)&#123;</span><br><span class="line">                n_max=i;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (i&lt;n_min)&#123;</span><br><span class="line">                n_min=i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((n_max-n_min)==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//桶容量</span></span><br><span class="line">        <span class="keyword">int</span> b_size=(<span class="keyword">int</span>)Math.ceil((<span class="keyword">double</span>)(n_max-n_min)/(l-<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//桶个数</span></span><br><span class="line">        <span class="keyword">int</span> b_num=l-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[] b_min=<span class="keyword">new</span> <span class="keyword">int</span>[b_num];</span><br><span class="line">        <span class="keyword">int</span>[] b_max=<span class="keyword">new</span> <span class="keyword">int</span>[b_num];</span><br><span class="line">        Arrays.fill(b_max,-<span class="number">1</span>);</span><br><span class="line">        Arrays.fill(b_min,Integer.MAX_VALUE);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i:nums)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i==n_max || i==n_min) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">int</span> index=(i-n_min)/b_size; <span class="comment">//第几个桶</span></span><br><span class="line">            b_max[index]=Math.max(b_max[index],i);</span><br><span class="line">            b_min[index]=Math.min(b_min[index],i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> premax=n_min;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;b_num;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(b_max[i]==-<span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">            res=Math.max(b_min[i]-premax,res);</span><br><span class="line">            premax=b_max[i];</span><br><span class="line">        &#125;</span><br><span class="line">        res=Math.max(n_max-premax,res);</span><br><span class="line">        <span class="keyword">return</span>  res;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maximumGap</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> minVal = Arrays.stream(nums).min().getAsInt();</span><br><span class="line">        <span class="keyword">int</span> maxVal = Arrays.stream(nums).max().getAsInt();</span><br><span class="line">        <span class="keyword">int</span> d = Math.max(<span class="number">1</span>, (maxVal - minVal) / (n - <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">int</span> bucketSize = (maxVal - minVal) / d + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[][] bucket = <span class="keyword">new</span> <span class="keyword">int</span>[bucketSize][<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bucketSize; ++i) &#123;</span><br><span class="line">            Arrays.fill(bucket[i], -<span class="number">1</span>); <span class="comment">// 存储 (桶内最小值，桶内最大值) 对， (-1, -1) 表示该桶是空的</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> idx = (nums[i] - minVal) / d;</span><br><span class="line">            <span class="keyword">if</span> (bucket[idx][<span class="number">0</span>] == -<span class="number">1</span>) &#123;</span><br><span class="line">                bucket[idx][<span class="number">0</span>] = bucket[idx][<span class="number">1</span>] = nums[i];</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                bucket[idx][<span class="number">0</span>] = Math.min(bucket[idx][<span class="number">0</span>], nums[i]);</span><br><span class="line">                bucket[idx][<span class="number">1</span>] = Math.max(bucket[idx][<span class="number">1</span>], nums[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> prev = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bucketSize; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[i][<span class="number">0</span>] == -<span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (prev != -<span class="number">1</span>) &#123;</span><br><span class="line">                ret = Math.max(ret, bucket[i][<span class="number">0</span>] - bucket[prev][<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            prev = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">作者：LeetCode-Solution</span><br><span class="line">链接：https:<span class="comment">//leetcode-cn.com/problems/maximum-gap/solution/zui-da-jian-ju-by-leetcode-solution/</span></span><br><span class="line">来源：力扣（LeetCode）</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+
+<h3 id="每日一题-1127-四数相加"><a href="#每日一题-1127-四数相加" class="headerlink" title="每日一题 1127 四数相加||"></a>每日一题 1127 四数相加||</h3><h4 id="一、问题描述-10"><a href="#一、问题描述-10" class="headerlink" title="一、问题描述"></a>一、问题描述</h4><p><img src="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/454.png" alt="题目描述"></p>
+<h4 id="二、具体代码-10"><a href="#二、具体代码-10" class="headerlink" title="二、具体代码"></a>二、具体代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span><span class="string">&#x27;</span></span><br><span class="line"><span class="string">遍历 A 和 B 所有元素和的组合情况，并记录在 ab_map 中，ab_map 的 key 为两数和，value 为该两数和出现的次数</span></span><br><span class="line"><span class="string">遍历 C 和 D 所有元素和的组合情况，取和的负值判断其是否在 ab_map 中，若存在则取出 ab_map 对应的 value 值，count = count + value</span></span><br><span class="line"><span class="string">&#x27;</span><span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fourSumCount</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span>[] B, <span class="keyword">int</span>[] C, <span class="keyword">int</span>[] D)</span> </span>&#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; countAB = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> u : A) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> v : B) &#123;</span><br><span class="line">                countAB.put(u + v, countAB.getOrDefault(u + v, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> u : C) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> v : D) &#123;</span><br><span class="line">                <span class="keyword">if</span> (countAB.containsKey(-u - v)) &#123;</span><br><span class="line">                    ans += countAB.get(-u - v);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
@@ -557,7 +679,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/backtrack/" rel="tag">backtrack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leecode/" rel="tag">leecode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/work/" rel="tag">work</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/backtrack/" rel="tag">backtrack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leecode/" rel="tag">leecode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os/" rel="tag">os</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/work/" rel="tag">work</a></li></ul>
     </div>
   </div>
 
@@ -567,7 +689,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/backtrack/" style="font-size: 10px;">backtrack</a> <a href="/tags/leecode/" style="font-size: 20px;">leecode</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/work/" style="font-size: 20px;">work</a>
+      <a href="/tags/backtrack/" style="font-size: 10px;">backtrack</a> <a href="/tags/leecode/" style="font-size: 20px;">leecode</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/os/" style="font-size: 20px;">os</a> <a href="/tags/work/" style="font-size: 20px;">work</a>
     </div>
   </div>
 
@@ -589,7 +711,15 @@
       <ul>
         
           <li>
+            <a href="/2020/11/18/os-practices-4/">postos-practices-4</a>
+          </li>
+        
+          <li>
             <a href="/2020/11/13/os-practices/">os practices</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/13/os-practices-3/">os practices-3-3</a>
           </li>
         
           <li>
@@ -598,14 +728,6 @@
         
           <li>
             <a href="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">每日一题</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/25/%E5%89%91%E6%8C%87offer/">剑指offer</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/04/Backtrack/">回溯</a>
           </li>
         
       </ul>
