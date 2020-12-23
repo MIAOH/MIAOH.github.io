@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>经典代码模板 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="树遍历层序遍历1、单栈 1234567891011121314151617181920class Solution &amp;#123;    public  zigzagLevelOrder(TreeNode root) &amp;#123;        Queue&lt;TreeNode&gt; nowstack&#x3D;new LinkedList&lt;&gt;();&#x2F;&#x2F;队列 存储当前层节点        if">
+<meta property="og:type" content="article">
+<meta property="og:title" content="经典代码模板">
+<meta property="og:url" content="http://yoursite.com/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="树遍历层序遍历1、单栈 1234567891011121314151617181920class Solution &amp;#123;    public  zigzagLevelOrder(TreeNode root) &amp;#123;        Queue&lt;TreeNode&gt; nowstack&#x3D;new LinkedList&lt;&gt;();&#x2F;&#x2F;队列 存储当前层节点        if">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-12-22T09:00:47.000Z">
+<meta property="article:modified_time" content="2020-12-23T11:33:47.500Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-经典代码模板" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/" class="article-date">
+  <time datetime="2020-12-22T09:00:47.000Z" itemprop="datePublished">2020-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      经典代码模板
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="树遍历"><a href="#树遍历" class="headerlink" title="树遍历"></a>树遍历</h4><h3 id="层序遍历"><a href="#层序遍历" class="headerlink" title="层序遍历"></a>层序遍历</h3><p>1、单栈</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="title">zigzagLevelOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        Queue&lt;TreeNode&gt; nowstack=<span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//队列 存储当前层节点</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) nowstack.offer(root);</span><br><span class="line">        <span class="keyword">while</span>(!nowstack.isEmpty())&#123;</span><br><span class="line">            Deque&lt;Integer&gt; temp=<span class="keyword">new</span> LinkedList&lt;&gt;(); <span class="comment">//存当前层对应的值</span></span><br><span class="line">            <span class="keyword">int</span> len=nowstack.size(); <span class="comment">//size为本层节点数</span></span><br><span class="line">            <span class="keyword">while</span>(len&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                TreeNode p=nowstack.poll();</span><br><span class="line">                <span class="keyword">if</span>(p.left!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    nowstack.offer(p.left);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(p.right!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    nowstack.offer(p.right);</span><br><span class="line">                &#125;</span><br><span class="line">                len--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、双栈</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//层序遍历</span></span><br><span class="line">        <span class="keyword">if</span>(root==<span class="keyword">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        List&lt;TreeNode&gt; now_layer=<span class="keyword">new</span> ArrayList&lt;TreeNode&gt;();</span><br><span class="line">        List&lt;TreeNode&gt; next_layer=<span class="keyword">new</span> ArrayList&lt;TreeNode&gt;();</span><br><span class="line">        <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">        now_layer.add(root);</span><br><span class="line">        <span class="keyword">while</span>(now_layer.size()&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            res+=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span>(TreeNode p:now_layer)&#123;</span><br><span class="line">                <span class="keyword">if</span>(p.left!=<span class="keyword">null</span>) next_layer.add(p.left);</span><br><span class="line">                <span class="keyword">if</span>(p.right!=<span class="keyword">null</span>) next_layer.add(p.right);</span><br><span class="line">            &#125;</span><br><span class="line">            now_layer=next_layer;<span class="comment">//更新当前栈</span></span><br><span class="line">            next_layer=<span class="keyword">new</span> ArrayList&lt;TreeNode&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><p>1、冒泡排序 （稳定、N2，1）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">从左到右不断交换相邻逆序的元素，在一轮的循环之后，可以让未排序的最大元素上浮到右侧。</span></span><br><span class="line"><span class="string">在一轮循环中，如果没有发生交换，那么说明数组已经是有序的，此时可以直接退出。</span></span><br><span class="line"><span class="string">&quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> issorted=<span class="keyword">false</span>; </span><br><span class="line">        <span class="keyword">int</span> len=nums.length;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=len-<span class="number">1</span>;i&gt;<span class="number">0</span>&amp;&amp;(issorted==<span class="keyword">false</span>);i--)&#123;</span><br><span class="line">            issorted=<span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[j]&gt;nums[j+<span class="number">1</span>])&#123;</span><br><span class="line">                    issorted=<span class="keyword">false</span>;</span><br><span class="line">                    swap(nums,j,j+<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>2、归并排序（稳定、NlogN，N（merge时辅助数组））</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</span><br><span class="line">    mergeandsort(nums,<span class="number">0</span>,nums.length-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">mergeandsort</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> l,<span class="keyword">int</span> h)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&lt;h)&#123;</span><br><span class="line">        <span class="keyword">int</span> m=(l+h)/<span class="number">2</span>;</span><br><span class="line">        mergeandsort(nums,l,m);</span><br><span class="line">        mergeandsort(nums,m+<span class="number">1</span>,h);</span><br><span class="line">        merge(nums,l,m,h);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> l,<span class="keyword">int</span> m,<span class="keyword">int</span> h)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=l,j=m+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span>[] temp=nums.clone();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> k=l;k&lt;=h;k++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(i&gt;m) nums[k]=temp[j++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(j&gt;h) nums[k]=temp[i++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(temp[i]&gt;temp[j]) nums[k]=temp[j++];</span><br><span class="line">        <span class="keyword">else</span> nums[k]=temp[i++];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、快速排序 (使用之前可以先随机打乱，不稳定，NlogN，logN（栈）)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</span><br><span class="line">        quicksort(nums,<span class="number">0</span>,nums.length-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quicksort</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> l,<span class="keyword">int</span> h)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(l&lt;h)&#123;</span><br><span class="line">            <span class="keyword">int</span> m=partition(nums,l,h);</span><br><span class="line">            quicksort(nums,l,m-<span class="number">1</span>);</span><br><span class="line">            quicksort(nums,m+<span class="number">1</span>,h);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> l,<span class="keyword">int</span> h)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> pivot=nums[l];</span><br><span class="line">        <span class="keyword">int</span> i=l+<span class="number">1</span>,j=h;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span>(i&lt;=h&amp;&amp;nums[i]&lt;=pivot) i++;</span><br><span class="line">            <span class="keyword">while</span> (j&gt;=<span class="number">0</span>&amp;&amp;nums[j]&gt;pivot) j--;</span><br><span class="line">            <span class="keyword">if</span>(i&gt;j) <span class="keyword">break</span>;</span><br><span class="line">            swap(nums,i,j);</span><br><span class="line">        &#125;</span><br><span class="line">        swap(nums,l,j);</span><br><span class="line">        <span class="keyword">return</span> j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp=nums[i];</span><br><span class="line">        nums[i]=nums[j];</span><br><span class="line">        nums[j]=temp;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/" data-id="ckj1ca7430000pcvf745za4he" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/11/18/os-practices-4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">postos-practices-4</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/backtrack/" rel="tag">backtrack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leecode/" rel="tag">leecode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/os/" rel="tag">os</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/work/" rel="tag">work</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/backtrack/" style="font-size: 10px;">backtrack</a> <a href="/tags/leecode/" style="font-size: 20px;">leecode</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/os/" style="font-size: 20px;">os</a> <a href="/tags/work/" style="font-size: 20px;">work</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/">经典代码模板</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/18/os-practices-4/">postos-practices-4</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/13/os-practices-3/">os practices-3-3</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/26/recording/">recording</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">每日一题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
