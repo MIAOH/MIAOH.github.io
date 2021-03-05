@@ -7,16 +7,19 @@
   
   <title>经典代码模板 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="技巧：1、求中间下标用low + (high - low) &#x2F;&#x2F; 2 而不是 (high + low) &#x2F;&#x2F; 2，是为了防止low+high溢出2、有序 二分3、划分数组 一半一半 想到双指针4、倒数第k个节点 也是双指针 一个先走k步5、求矩形最大面积—单调栈 树遍历层序遍历1、单栈 1234567891011121314151617181920class Solution &amp;#123;">
+  <meta name="description" content="技巧：1、求中间下标用low + (high - low) &#x2F;&#x2F; 2 而不是 (high + low) &#x2F;&#x2F; 2，是为了防止low+high溢出2、有序 二分3、划分数组 一半一半 想到双指针4、倒数第k个节点 也是双指针 一个先走k步（快慢指针）5、求矩形最大面积—单调栈6、图（建图 bfs求两结点的最短路径）7、前缀树 新的一种数据结构 用于字符串匹配8、判断链表是否有环 以及环的起点和长度（">
 <meta property="og:type" content="article">
 <meta property="og:title" content="经典代码模板">
 <meta property="og:url" content="http://yoursite.com/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="技巧：1、求中间下标用low + (high - low) &#x2F;&#x2F; 2 而不是 (high + low) &#x2F;&#x2F; 2，是为了防止low+high溢出2、有序 二分3、划分数组 一半一半 想到双指针4、倒数第k个节点 也是双指针 一个先走k步5、求矩形最大面积—单调栈 树遍历层序遍历1、单栈 1234567891011121314151617181920class Solution &amp;#123;">
+<meta property="og:description" content="技巧：1、求中间下标用low + (high - low) &#x2F;&#x2F; 2 而不是 (high + low) &#x2F;&#x2F; 2，是为了防止low+high溢出2、有序 二分3、划分数组 一半一半 想到双指针4、倒数第k个节点 也是双指针 一个先走k步（快慢指针）5、求矩形最大面积—单调栈6、图（建图 bfs求两结点的最短路径）7、前缀树 新的一种数据结构 用于字符串匹配8、判断链表是否有环 以及环的起点和长度（">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/84.png">
+<meta property="og:image" content="http://yoursite.com/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/floyd.png">
+<meta property="og:image" content="http://yoursite.com/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/floyd1.png">
+<meta property="og:image" content="http://yoursite.com/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/40.png">
 <meta property="article:published_time" content="2020-12-22T09:00:47.000Z">
-<meta property="article:modified_time" content="2020-12-27T12:47:10.195Z">
+<meta property="article:modified_time" content="2021-03-01T06:06:05.731Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/84.png">
@@ -24,7 +27,7 @@
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/img/favicon.png">
   
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
@@ -45,14 +48,14 @@
         <a href="/" id="logo">Hexo</a>
       </h1>
       
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">[object Object]</a>
+        </h2>
+      
     </div>
     <div id="header-inner" class="inner">
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
         
       </nav>
       <nav id="sub-nav">
@@ -90,7 +93,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="技巧："><a href="#技巧：" class="headerlink" title="技巧："></a>技巧：</h4><p>1、求中间下标用low + (high - low) // 2 而不是 (high + low) // 2，是为了防止low+high溢出<br>2、有序 二分<br>3、划分数组 一半一半 想到双指针<br>4、倒数第k个节点 也是双指针 一个先走k步<br>5、求矩形最大面积—单调栈</p>
+        <h4 id="技巧："><a href="#技巧：" class="headerlink" title="技巧："></a>技巧：</h4><p>1、求中间下标用low + (high - low) // 2 而不是 (high + low) // 2，是为了防止low+high溢出<br>2、有序 二分<br>3、划分数组 一半一半 想到双指针<br>4、倒数第k个节点 也是双指针 一个先走k步（快慢指针）<br>5、求矩形最大面积—单调栈<br>6、图（建图 bfs求两结点的最短路径）<br>7、前缀树 新的一种数据结构 用于字符串匹配<br>8、判断链表是否有环 以及环的起点和长度（Floyd判环算法  龟兔赛跑<br>9、top-k  用堆或者二叉搜索树</p>
 <h4 id="树遍历"><a href="#树遍历" class="headerlink" title="树遍历"></a>树遍历</h4><h3 id="层序遍历"><a href="#层序遍历" class="headerlink" title="层序遍历"></a>层序遍历</h3><p>1、单栈</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="title">zigzagLevelOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        Queue&lt;TreeNode&gt; nowstack=<span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//队列 存储当前层节点</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) nowstack.offer(root);</span><br><span class="line">        <span class="keyword">while</span>(!nowstack.isEmpty())&#123;</span><br><span class="line">            Deque&lt;Integer&gt; temp=<span class="keyword">new</span> LinkedList&lt;&gt;(); <span class="comment">//存当前层对应的值</span></span><br><span class="line">            <span class="keyword">int</span> len=nowstack.size(); <span class="comment">//size为本层节点数</span></span><br><span class="line">            <span class="keyword">while</span>(len&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                TreeNode p=nowstack.poll();</span><br><span class="line">                <span class="keyword">if</span>(p.left!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    nowstack.offer(p.left);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(p.right!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    nowstack.offer(p.right);</span><br><span class="line">                &#125;</span><br><span class="line">                len--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>2、双栈</p>
@@ -104,6 +107,152 @@
 
 <h4 id="单调栈"><a href="#单调栈" class="headerlink" title="单调栈"></a>单调栈</h4><p><img src="/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/84.png" alt="题目描述"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">单调栈</span></span><br><span class="line"><span class="string">&quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">largestRectangleArea</span><span class="params">(<span class="keyword">int</span>[] heights)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 这里为了代码简便，在柱体数组的头和尾加了两个高度为 0 的柱体。   加最后一个0是为了计算栈中剩余的递增面积 若不加最后一个零 剩余递增不会被计算</span></span><br><span class="line">        <span class="keyword">int</span>[] tmp = <span class="keyword">new</span> <span class="keyword">int</span>[heights.length + <span class="number">2</span>];</span><br><span class="line">        System.arraycopy(heights, <span class="number">0</span>, tmp, <span class="number">1</span>, heights.length); </span><br><span class="line">        </span><br><span class="line">        Deque&lt;Integer&gt; stack = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> area = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; heights.length+<span class="number">2</span>; i++) &#123;</span><br><span class="line">            <span class="comment">// 对栈中柱体来说，栈中的下一个柱体就是其「左边第一个小于自身的柱体」；</span></span><br><span class="line">            <span class="comment">// 若当前柱体 i 的高度小于栈顶柱体的高度，说明 i 是栈顶柱体的「右边第一个小于栈顶柱体的柱体」。</span></span><br><span class="line">            <span class="comment">// 因此以栈顶柱体为高的矩形的左右宽度边界就确定了，可以计算面积🌶️ ～</span></span><br><span class="line">            <span class="keyword">while</span> (!stack.isEmpty() &amp;&amp; tmp[i] &lt; tmp[stack.peek()]) &#123;</span><br><span class="line">                <span class="keyword">int</span> h = tmp[stack.pop()];</span><br><span class="line">                area = Math.max(area, (i - stack.peek() - <span class="number">1</span>) * h);   </span><br><span class="line">            &#125;</span><br><span class="line">            stack.push(i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>8、Floyd判环算法  龟兔赛跑</p>
+<p>参考博客：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u012534831/article/details/74231581">https://blog.csdn.net/u012534831/article/details/74231581</a><br><img src="/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/floyd.png" alt="题目描述"><br><img src="/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/floyd1.png" alt="题目描述"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">弗洛伊德（Floyd ）使用了两个指针，一个慢指针（龟）每次前进一步，快指针（兔）指针每次前进两步（两步或多步效果是等价的，只要一个比另一个快就行。但是如果移动步数增加，算法的复杂度可能增加）。</span></span><br><span class="line"><span class="string">如果两者在链表头以外（不包含开始情况）的某一点相遇（即相等）了，那么说明链表有环，否则，如果（快指针）到达了链表的结尾（如果存在结尾，肯定无环），那么说明没环。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">环的起点：将慢指针（或快指针）移到链表起点，然后两者同时移动，每次移动一步，那么两者相遇的地方就是环的起点。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">环的长度：当两者相遇之后，固定一个指针，让另一个指针行走一圈，使用count计数，如果两个指针相等（即相遇），则count即为环的长度。</span></span><br><span class="line"><span class="string">&quot;</span><span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>9、堆</p>
+<h3 id="剑指-Offer-40-最小的k个数"><a href="#剑指-Offer-40-最小的k个数" class="headerlink" title="剑指 Offer 40 最小的k个数"></a>剑指 Offer 40 最小的k个数</h3><h4 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h4><p><img src="/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/40.png" alt="题目描述"></p>
+<h4 id="二、具体代码"><a href="#二、具体代码" class="headerlink" title="二、具体代码"></a>二、具体代码</h4><pre><code class="Java">&quot;&quot;&quot;
+1、大堆  
+我们用一个大根堆实时维护数组的前 k 小值。首先将前 k 个数插入大根堆中，随后从第 k+1 个数开始遍历，如果当前遍历到的数比大根堆的堆顶的数要小，就把堆顶的数弹出，再插入当前遍历到的数。最后将大根堆里的数存入数组返回即可。
+
+&quot;&quot;&quot;
+class Solution &#123;
+    public int[] getLeastNumbers(int[] arr, int k) &#123;
+        int[] res=new int[k];
+        if(k==0)&#123;
+            return res;
+        &#125;
+        PriorityQueue&lt;Integer&gt; heap= new PriorityQueue&lt;Integer&gt;(new Comparator&lt;Integer&gt;() &#123;
+            public int compare(Integer o1, Integer o2) &#123;
+                return o2-o1;  //大堆
+            &#125;
+        &#125;);
+        for(int i=0;i&lt;k;i++)&#123;
+            heap.offer(arr[i]);  //插入堆中
+        &#125;
+        for(int i=k;i&lt;arr.length;i++)&#123;
+            if(heap.peek()&gt;arr[i])&#123;  //比较堆顶元素和待插入元素大小
+                heap.poll(); //去除栈顶元素
+                heap.offer(arr[i]); //插入元素
+            &#125;
+        &#125;
+        for(int i=0;i&lt;k;i++)&#123;
+            res[i]=heap.poll();  //堆中元素即全局最小的k个数
+        &#125;
+        return res;
+    &#125;
+&#125;
+直接用小堆
+class Solution &#123;
+    public int[] getLeastNumbers(int[] arr, int k) &#123;
+        PriorityQueue&lt;Integer&gt; heap=new PriorityQueue&lt;&gt;();
+        for(int i:arr)&#123;
+            heap.offer(i);
+        &#125;
+        int[] res=new int[k];
+        for (int i = 0; i &lt; k; i++) &#123;
+            res[i]=heap.poll();
+        &#125;
+        return res;
+    &#125;
+&#125;
+
+&quot;&quot;&quot;
+2、快排
+&quot;&quot;&quot;
+class Solution &#123;
+    public int[] getLeastNumbers(int[] arr, int k) &#123;
+        if(k==0 || arr.length==0)&#123;
+            return new int[0];
+        &#125;
+        else
+            return quicksort(arr,0,arr.length-1,k-1);//第k个数的下标为k-1
+    &#125;
+    //nums[k]的左边都小于它  右边都大于它
+    //其中k为下标
+    private int[] quicksort(int[] nums,int lo,int hi,int k)&#123;
+        int pivot=partition(nums,lo,hi);
+        if(pivot==k)&#123;
+            return Arrays.copyOf(nums,k+1);
+        &#125;
+        else&#123;
+            return pivot&gt;k?quicksort(nums,lo,pivot-1,k):quicksort(nums,pivot+1,hi,k);
+        &#125;
+    &#125;
+    // 将nums[lo]作为基准 进行划分  最后返回pivot 
+    //nums[pivot]的左边都小于它  右边都大于它
+    private int partition(int[] nums,int lo,int hi)&#123;
+        int pivot_value=nums[lo];
+        int i=lo,j=hi+1;
+        while(true)&#123;
+            while(++i&lt;=hi &amp;&amp; nums[i]&lt;pivot_value);
+            while (--j&gt;=lo &amp;&amp; nums[j]&gt;pivot_value);
+            if(i&gt;=j)&#123;
+                break;
+            &#125;
+            int temp=nums[i];
+            nums[i]=nums[j];
+            nums[j]=temp;
+        &#125;
+        nums[lo]=nums[j];
+        nums[j]=pivot_value;
+        return j;
+    &#125;
+&#125;
+&quot;&quot;&quot;
+3、二叉搜索树--TreeMap
+我们遍历数组中的数字，维护一个数字总个数为 K 的 TreeMap：
+1.若目前 map 中数字个数小于 K，则将 map 中当前数字对应的个数 +1；
+2.否则，判断当前数字与 map 中最大的数字的大小关系：若当前数字大于等于 map 中的最大数字，就直接跳过该数字；若当前数字小于 map 中的最大数字，则将 map 中当前数字对应的个数 +1，并将 map 中最大数字对应的个数减 1。
+
+&quot;&quot;&quot;
+class Solution &#123;
+    public int[] getLeastNumbers(int[] arr, int k) &#123;
+        if (k == 0 || arr.length == 0) &#123;
+            return new int[0];
+        &#125;
+        // TreeMap的key是数字, value是该数字的个数。
+        // cnt表示当前map总共存了多少个数字。
+        TreeMap&lt;Integer, Integer&gt; map = new TreeMap&lt;&gt;();
+        int cnt = 0;
+        for (int num: arr) &#123;
+            // 1. 遍历数组，若当前map中的数字个数小于k，则map中当前数字对应个数+1
+            if (cnt &lt; k) &#123;
+                map.put(num, map.getOrDefault(num, 0) + 1);
+                cnt++;
+                continue;
+            &#125; 
+            // 2. 否则，取出map中最大的Key（即最大的数字), 判断当前数字与map中最大数字的大小关系：
+            //    若当前数字比map中最大的数字还大，就直接忽略；
+            //    若当前数字比map中最大的数字小，则将当前数字加入map中，并将map中的最大数字的个数-1。
+            //Map.Entry是为了更方便的输出map键值对。entry.getvalue()获得当前entry的值   entry.getkey()获得当前entry的键
+            //java.util.TreeMap.lastEntry() 返回具有最大键的键值对；如果没有这样的键，则返回null。
+            Map.Entry&lt;Integer, Integer&gt; entry = map.lastEntry();
+            if (entry.getKey() &gt; num) &#123;
+                map.put(num, map.getOrDefault(num, 0) + 1);
+                if (entry.getValue() == 1) &#123;
+                    map.pollLastEntry();  //若最大的数只有一个 则直接删除
+                &#125; else &#123;
+                    map.put(entry.getKey(), entry.getValue() - 1);  //若不止一个 则删除一个
+                &#125;
+            &#125;
+        &#125;
+        // 最后返回map中的元素
+        int[] res = new int[k];
+        int idx = 0;
+        for (Map.Entry&lt;Integer, Integer&gt; entry: map.entrySet()) &#123;
+            int freq = entry.getValue();
+            while (freq-- &gt; 0) &#123;
+                res[idx++] = entry.getKey();
+            &#125;
+        &#125;
+        return res;
+    &#125;
+&#125;</code></pre>
+
       
     </div>
     <footer class="article-footer">
@@ -115,6 +264,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/12/30/top-100/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          top-100
+        
+      </div>
+    </a>
   
   
     <a href="/2020/11/18/os-practices-4/" id="article-nav-older" class="article-nav-link-wrap">
@@ -170,6 +328,10 @@
       <ul>
         
           <li>
+            <a href="/2020/12/30/top-100/">top-100</a>
+          </li>
+        
+          <li>
             <a href="/2020/12/22/%E7%BB%8F%E5%85%B8%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF/">经典代码模板</a>
           </li>
         
@@ -185,10 +347,6 @@
             <a href="/2020/10/26/recording/">recording</a>
           </li>
         
-          <li>
-            <a href="/2020/09/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">每日一题</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -201,17 +359,13 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2020 John Doe<br>
+      &copy; 2021 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
     </div>
     <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
     
